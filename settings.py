@@ -17,3 +17,9 @@ class Settings:
         self.bullet_height = 15
         self.bullet_color = 60, 60, 60
         self.bullets_allowed = 3
+
+        # ustawienia obcych
+        self.invader_speed_factor = 1
+        self.fleet_drop_speed = 10
+        # kierunek 1 oznacza lewo, -1 oznacza prawo
+        self.fleet_direction = 1
