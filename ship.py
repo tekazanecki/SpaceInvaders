@@ -1,14 +1,16 @@
 import pygame
+from pygame.sprite import Sprite
 
-class Ship():
+class Ship(Sprite):
 
-    def __init__(self, screen, game_settings):
+    def __init__(self, game_settings, screen):
         """Inicjalizacja statku kosmicznego"""
+        super(Ship, self).__init__()
         self.screen = screen
         self.game_settings = game_settings
 
         # obraz statku kosmicznego
-        self.image = pygame.image.load('images/ship.png')
+        self.image = pygame.image.load('images/ship25x25.png')
         self.rect = self.image.get_rect()
         self.screen_rect = self.screen.get_rect()
 

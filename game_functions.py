@@ -23,43 +23,46 @@ def check_keyup_event(event, ship):
     elif event.key == pygame.K_LEFT:
         ship.moving_left = False
 
-
 def fire_bullet(game_settings, screen, ship, bullets):
     """Wystrzelenie pocisku"""
     if len(bullets) < game_settings.bullets_allowed:
         new_bullet = Bullet(game_settings, screen, ship)
         bullets.add(new_bullet)
 
-def check_events(game_settings, game_stats, screen, ship, invaders, bullets, play_button ):
+def check_events(game_settings, game_stats, scoreboard, screen, ship, invaders, bullets, play_button ):
     """Reakcja na zdarzenia generowane przez klawiaturę i mysz"""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
-            check_play_button(game_settings, game_stats, screen, ship, invaders, bullets, play_button, mouse_x, mouse_y)
+            check_play_button(game_settings, game_stats, scoreboard, screen, ship, invaders, bullets, play_button, mouse_x, mouse_y)
         elif event.type == pygame.KEYDOWN:
             check_keydown_event(event, game_settings, screen, ship, bullets)
         elif event.type == pygame.KEYUP:
             check_keyup_event(event, ship)
 
-def check_play_button(game_settings, game_stats, screen, ship, invaders, bullets, play_button, mouse_x, mouse_y):
+def check_play_button(game_settings, game_stats, scoreboard, screen, ship, invaders, bullets, play_button, mouse_x, mouse_y):
     """Rozpoczęcie nowej gry po kliknięciu przycisku Gra"""
     button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
     if button_clicked and not game_stats.game_active:
         game_settings.initialize_dynamic_settings()
-        run_new_game(game_settings, game_stats, screen, ship, invaders, bullets)
+        run_new_game(game_settings, game_stats, scoreboard, screen, ship, invaders, bullets)
 
-def run_new_game(game_settings, game_stats, screen, ship, invaders, bullets):
+def run_new_game(game_settings, game_stats, scoreboard, screen, ship, invaders, bullets):
     pygame.mouse.set_visible(False)
     game_stats.reset_status()
     game_stats.game_active = True
+    # przygotowanie tablicy wyników
+    scoreboard.prep_score()
+    scoreboard.prep_high_score()
+    scoreboard.prep_level()
     # usuwanie opcych i pocisków
     invaders.empty()
     bullets.empty()
     # utworzenie nowej floty i wyśrodkowanie statku
     create_fleet(game_settings, screen, ship, invaders)
-def update_screen(game_settings, game_stats, screen, ship, invaders, bullets, play_button):
+def update_screen(game_settings, game_stats, scoreboard, screen, ship, invaders, bullets, play_button):
     """Uaktualnianie ekranu"""
     # odświeżanie ekranu
     screen.fill(game_settings.bg_color)
@@ -67,6 +70,8 @@ def update_screen(game_settings, game_stats, screen, ship, invaders, bullets, pl
         bullet.draw_bullet()
     ship.blitme()
     invaders.draw(screen)
+    # wyświetlanie informacji o punktacji
+    scoreboard.show_score()
     # wyświetlanie przycisku tylko gdy gra jest nieaktywna
     if not game_stats.game_active:
         play_button.draw_button()
@@ -74,38 +79,46 @@ def update_screen(game_settings, game_stats, screen, ship, invaders, bullets, pl
     # wyświetlanie ostatniego ekranu
     pygame.display.flip()
 
-def update_bullets(game_settings, screen, ship, bullets, invaders):
+def update_bullets(game_settings, screen, game_stats, scoreboard, ship, bullets, invaders):
     """Uaktualnij położenie pocisków i usunięcie tych poza ekranem"""
     bullets.update()
     # usunięcie pocisków poza ekranem
     for bullet in bullets.copy():
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
-    check_bullet_invader_collision(game_settings, screen, ship, invaders, bullets)
+    check_bullet_invader_collision(game_settings, screen, game_stats, scoreboard, ship, invaders, bullets)
 
-def check_bullet_invader_collision(game_settings, screen, ship, invaders, bullets):
+def check_bullet_invader_collision(game_settings, screen, game_stats, scoreboard, ship, invaders, bullets):
     # czy pocisk trafił obcego, jeśli tak usuwamy i pocisk i obcego
     collisions = pygame.sprite.groupcollide(bullets, invaders, True, True)
+    if collisions:
+        for invaders in collisions.values():
+            game_stats.score += game_settings.invader_points * len(invaders)
+            scoreboard.prep_score()
+        check_high_score(game_stats, scoreboard)
     # gdy wszyscy obcy znikną
     if len(invaders) == 0:
         # pozbycie się istniejących pocisków i wygenerowanie nowej floty
         bullets.empty()
-        game_settings.incrace_speed()
+        game_settings.increese_speed()
+        game_stats.level += 1
+        scoreboard.prep_level()
         create_fleet(game_settings, screen, ship, invaders)
 
-def update_invaders(game_settings, game_stats, screen, ship,  invaders, bullets):
+def update_invaders(game_settings, game_stats, scoreboard, screen, ship, invaders, bullets):
     """Uaktualnienie położenia obcych"""
     check_fleet_edges(game_settings, invaders)
     invaders.update()
     # wykrycie zakończenia gry
     if pygame.sprite.spritecollideany(ship, invaders):
-        ship_hit(game_settings, game_stats, screen, ship, invaders, bullets)
-    check_invaders_bottom(game_settings, game_stats, screen, ship, invaders, bullets)
+        ship_hit(game_settings, game_stats, scoreboard, screen, ship, invaders, bullets)
+    check_invaders_bottom(game_settings, game_stats, scoreboard, screen, ship, invaders, bullets)
 
-def ship_hit(game_settings, game_stats, screen, ship, invaders, bullets):
+def ship_hit(game_settings, game_stats, scoreboard, screen, ship, invaders, bullets):
     """Reakcja na uderzenie obcego statku"""
     if game_stats.ships_left > 0:
         game_stats.ships_left -= 1
+        scoreboard.prep_ships()
         # wyczyszczenie planszy
         invaders.empty()
         bullets.empty()
@@ -117,12 +130,12 @@ def ship_hit(game_settings, game_stats, screen, ship, invaders, bullets):
     else:
         game_stats.game_active = False
         pygame.mouse.set_visible(True)
-def check_invaders_bottom(game_settings, game_stats, screen, ship, invaders, bullets):
+def check_invaders_bottom(game_settings, game_stats, scoreboard, screen, ship, invaders, bullets):
     """Sprawdzenie czy którykolwiek statek obcych dotrarł do dolnej lini ekranu"""
     screen_rect = screen.get_rect()
     for invader in invaders:
         if invader.rect.bottom >= screen_rect.bottom:
-            ship_hit(game_settings,game_stats, screen, ship, invaders,bullets)
+            ship_hit(game_settings, game_stats, scoreboard, screen, ship, invaders,bullets)
 
 def get_number_invader_x(game_settings, invader_width):
     """Ustalenie liczby obcych, którzy zmieszczą się w rzędzie"""
@@ -168,3 +181,8 @@ def change_fleet_direction(game_settings, invaders):
         invader.rect.y += game_settings.fleet_drop_speed
     game_settings.fleet_direction *= -1
 
+def check_high_score(game_stats, scoreboard):
+    """Sprawdzenie czy mamy najlepszy wynik"""
+    if game_stats.score > game_stats.high_score:
+        game_stats.high_score = game_stats.score
+        scoreboard.prep_high_score()

@@ -22,10 +22,14 @@ class Settings:
         # ustawienia obcych
         self.invader_speed_factor = 1
         self.fleet_drop_speed = 10
+        self.invader_points = 50
+
         # kierunek 1 oznacza lewo, -1 oznacza prawo
         self.fleet_direction = 1
-
+        # łatwa zmiana szybkości gry
         self.speedup_scale = 1.1
+        # łatwa zmiana punktacji
+        self.score_scale = 1.5
 
         self.initialize_dynamic_settings()
 
@@ -43,3 +47,4 @@ class Settings:
         self.ship_speed_factor *= self.speedup_scale
         self.bullet_speed_factor *= self.speedup_scale
         self.invader_speed_factor *= self.speedup_scale
+        self.invader_points = int(self.invader_points * self.score_scale)
