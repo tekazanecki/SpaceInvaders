@@ -16,13 +16,13 @@ Kosmiczna Inwazja to klasyczna gra typu "Space Invaders" stworzona przy użyciu 
 
 Aby uruchomić grę, potrzebujesz zainstalowanego Pythona oraz biblioteki Pygame. Możesz je zainstalować za pomocą poniższych komend:
 
-bash
-
 `pip install pygame`
 
-Następnie sklonuj to repozytorium na swój lokalny dysk:
+Możesz też skorzystać z pliku requirements.txt
 
-bash
+`pip install -r requirements.txt`
+
+Następnie sklonuj to repozytorium na swój lokalny dysk:
 
 `git clone https://github.com/twoj-uzytkownik/nazwa-repozytorium.git cd nazwa-repozytorium`
 
@@ -30,9 +30,8 @@ bash
 
 Aby uruchomić grę, po prostu wykonaj poniższą komendę w terminalu, będąc w katalogu projektu:
 
-```bash
-python space_invaders.py
-```
+`python space_invaders.py`
+
 
 ## Zasady gry
 
