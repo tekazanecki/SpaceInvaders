@@ -1,6 +1,6 @@
 # Kosmiczna Inwazja
 
-Kosmiczna Inwazja to klasyczna gra typu "Space Invaders" stworzona przy użyciu Pygame. Celem gry jest ochrona planety przed inwazją obcych statków kosmicznych poprzez strzelanie do nich z Twojego statku kosmicznego. Gra oferuje rosnący poziom trudności, z każdym poziomem wzrastając prędkość przeciwników.
+Kosmiczna Inwazja to klasyczna gra typu "Space Invaders" stworzona przy użyciu Pygame. Celem gry jest ochrona planety przed inwazją obcych statków kosmicznych. Gra oferuje rosnący poziom trudności, z każdym poziomem zwiększając prędkość przeciwników.
 
 ![Opis obrazka](images/screenshot.png)
 
@@ -30,9 +30,9 @@ bash
 
 Aby uruchomić grę, po prostu wykonaj poniższą komendę w terminalu, będąc w katalogu projektu:
 
-bash
-
-`python space_invaders.py`
+```bash
+python space_invaders.py
+```
 
 ## Zasady gry
 
