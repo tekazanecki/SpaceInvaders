@@ -1,68 +1,76 @@
-# Kosmiczna Inwazja
+# Cosmic Invasion
 
-Kosmiczna Inwazja to klasyczna gra typu "Space Invaders" stworzona przy użyciu Pygame. Celem gry jest ochrona planety przed inwazją obcych statków kosmicznych. Gra oferuje rosnący poziom trudności, z każdym poziomem zwiększając prędkość przeciwników.
+Cosmic Invasion is a classic "Space Invaders" game created using Pygame. The objective of the game is to protect the planet from an alien spaceship invasion. The game offers increasing difficulty, with each level increasing the speed of the enemies.
 
-![Opis obrazka](images/screenshot.png)
+![screenshot_image](images/screenshot.png)
 
-## Spis treści
-- [Instalacja](#instalacja)
-- [Uruchomienie](#uruchomienie)
-- [Zasady gry](#zasady-gry)
-- [Pliki](#pliki)
-- [Kontrybucja](#kontrybucja)
-- [Licencja](#licencja)
+## Table of Contents
 
-## Instalacja
+- [Installation](#installation)
+- [Running the Game](#running-the-game)
+- [Game Rules](#game-rules)
+- [Files](#files)
+- [Contribution](#contribution)
+- [License](#license)
 
-Aby uruchomić grę, potrzebujesz zainstalowanego Pythona oraz biblioteki Pygame. Możesz je zainstalować za pomocą poniższych komend:
+## Installation
+
+To run the game, clone this repository to your local disk:
+
+sh
+
+`git clone https://github.com/your-username/repository-name.git cd repository-name`
+
+You need Python and the Pygame library installed. You can install them using the following commands:
+
+sh
 
 `pip install pygame`
 
-Możesz też skorzystać z pliku requirements.txt
+You can also use the requirements.txt file:
+
+sh
 
 `pip install -r requirements.txt`
 
-Następnie sklonuj to repozytorium na swój lokalny dysk:
+## Running the Game
 
-`git clone https://github.com/twoj-uzytkownik/nazwa-repozytorium.git cd nazwa-repozytorium`
+To run the game, simply execute the following command in the terminal while in the project directory:
 
-## Uruchomienie
-
-Aby uruchomić grę, po prostu wykonaj poniższą komendę w terminalu, będąc w katalogu projektu:
+sh
 
 `python space_invaders.py`
 
+## Game Rules
 
-## Zasady gry
+- Use the arrow keys to move your ship left and right.
+- Press the spacebar to shoot a bullet.
+- Destroy all alien ships to progress to the next level.
+- Each subsequent level increases the speed of the enemies.
+- The game ends when all your ships are destroyed or when the aliens reach the bottom edge of the screen.
 
-- Używaj klawiszy strzałek, aby poruszać swoim statkiem w lewo i prawo.
-- Naciśnij spację, aby wystrzelić pocisk.
-- Zniszcz wszystkie obce statki, aby przejść do kolejnego poziomu.
-- Każdy kolejny poziom zwiększa prędkość przeciwników.
-- Gra kończy się, gdy wszystkie Twoje statki zostaną zniszczone lub gdy obcy dotrą do dolnej krawędzi ekranu.
+## Files
 
-## Pliki
+### Main Game Files
 
-### Główne pliki gry
+- **space_invaders.py**: Main file that runs the game.
+- **settings.py**: Configuration file with game settings.
+- **game_functions.py**: File containing the main game functions.
+- **game_stats.py**: File managing game statistics.
+- **scoreboard.py**: File responsible for displaying scores.
+- **button.py**: File defining buttons in the game.
+- **ship.py**: File managing the player’s ship.
+- **bullet.py**: File managing bullets.
+- **invader.py**: File managing alien ships.
 
-- **space_invaders.py**: Główny plik uruchamiający grę.
-- **settings.py**: Plik konfiguracyjny z ustawieniami gry.
-- **game_functions.py**: Plik zawierający główne funkcje gry.
-- **game_stats.py**: Plik zarządzający statystykami gry.
-- **scoreboard.py**: Plik odpowiedzialny za wyświetlanie wyników.
-- **button.py**: Plik definiujący przyciski w grze.
-- **ship.py**: Plik zarządzający statkiem gracza.
-- **bullet.py**: Plik zarządzający pociskami.
-- **invader.py**: Plik zarządzający obcymi statkami.
+### Dependencies
 
-### Zależności
+- **pygame**: Library for creating 2D games.
 
-- **pygame**: Biblioteka do tworzenia gier 2D.
+## Contribution
 
-## Kontrybucja
+If you want to contribute to the development of this project, open an issue or create a pull request. New features, bug fixes, and code optimizations are always welcome.
 
-Jeśli chcesz przyczynić się do rozwoju tego projektu, otwórz zgłoszenie (issue) lub stwórz pull request. Zawsze mile widziane są nowe funkcje, poprawki błędów oraz optymalizacje kodu.
+## License
 
-## Licencja
-
-Projekt jest dostępny na licencji MIT. Szczegóły znajdują się w pliku LICENSE.
+The project is available under the MIT license. Details can be found in the LICENSE file.
